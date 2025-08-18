@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chào bạn nhỏ cụa tớ :333</title>
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+#container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    width: 350px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+input[type="text"] {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+#yes {
+    background-color: #ff6b81;
+    color: white;
+}
+#no {
+    background-color: #ccc;
+    color: white;
+    font-size: 18px;
+    width: 120px;
+    height: 60px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+#message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ff4d6d;
+    display: none;
+    animation: heart 1s infinite;
+}
+@keyframes heart {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+.confetti, .heart, .gif-img, .bugcat {
+    position: absolute;
+    pointer-events: none;
+}
+.confetti {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    animation: fall 3s linear forwards;
+}
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg);}
+    100% { transform: translateY(500px) rotate(360deg);}
+}
+.heart {
+    width: 20px;
+    height: 20px;
+    background-image: url('https://i.ibb.co/yk2dPjJ/heart.png');
+    background-size: cover;
+    animation: float 2s ease-in forwards;
+}
+@keyframes float {
+    0% { transform: translateY(0) scale(0.5); opacity: 1;}
+    100% { transform: translateY(-200px) scale(1.2); opacity: 0;}
+}
+.gif-img {
+    width: 60px;
+    height: 60px;
+    animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%,100% { transform: translateY(0);}
+    50% { transform: translateY(-20px);}
+}
+.bugcat {
+    width: 50px;
+    height: 50px;
+    animation: movebug 5s linear infinite;
+}
+@keyframes movebug {
+    0% { transform: translate(0,0) rotate(0deg);}
+    25% { transform: translate(200px,50px) rotate(180deg);}
+    50% { transform: translate(-150px,150px) rotate(360deg);}
+    75% { transform: translate(100px,200px) rotate(540deg);}
+    100% { transform: translate(0,0) rotate(720deg);}
+}
+</style>
+</head>
+<body>
+<div id="container">
+    <div id="step1">
+        <h2>Điền tên cậu đi 😍</h2>
+        <input type="text" id="nameInput" placeholder="Tên cậu...">
+        <br>
+        <button onclick="nextStep()">OK</button>
+    </div>
+    <div id="step2" style="display:none;">
+        <h2 id="loveText"></h2>
+        <button id="yes" onclick="accept()">Đồng ý 💖</button>
+        <button id="no">Từ chối 😢</button>
+        <div id="message">Tớ biết cậu cũng thích tớ màaaa &lt;3</div>
+    </div>
+</div>
+
+<script>
+const nameInput = document.getElementById('nameInput');
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
+const loveText = document.getElementById('loveText');
+const noBtn = document.getElementById('no');
+const message = document.getElementById('message');
+const container = document.getElementById('container');
+
+function nextStep() {
+    if(nameInput.value.trim() === "") {
+        alert("Nhập tên đi chứ 😘");
+        return;
+    }
+    loveText.innerHTML = `Tớ thích cậu lâu rồi, ${nameInput.value}, cậu có thích tớ hongg?`;
+    step1.style.display = "none";
+    step2.style.display = "block";
+}
+
+// Nút từ chối chạy lung tung
+function moveNoButton() {
+    const rect = container.getBoundingClientRect();
+    noBtn.style.left = Math.random() * (rect.width - 120) + 'px';
+    noBtn.style.top = Math.random() * (rect.height - 60) + 'px';
+}
+
+// Nhảy liên tục
+setInterval(moveNoButton, 500);
+
+// Chạy theo chuột
+document.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const btnX = parseInt(noBtn.style.left || 0);
+    const btnY = parseInt(noBtn.style.top || 0);
+    const distance = Math.hypot(x - btnX, y - btnY);
+    if(distance < 100){
+        moveNoButton();
+    }
+});
+
+function accept() {
+    message.style.display = "block";
+
+    // Confetti 30 cái
+    for(let i=0;i<30;i++){
+        let confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random()*window.innerWidth + 'px';
+        confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(),3000);
+    }
+
+    // Trái tim 20 cái
+    for(let i=0;i<20;i++){
+        let heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random()*window.innerWidth + 'px';
+        heart.style.bottom = '0px';
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2000);
+    }
+
+    // GIF 5 cái
+    for(let i=0;i<5;i++){
+        let gif = document.createElement('img');
+        gif.src = 'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif';
+        gif.className = 'gif-img';
+        gif.style.left = Math.random()*window.innerWidth + 'px';
+        gif.style.top = Math.random()*window.innerHeight/2 + 'px';
+        document.body.appendChild(gif);
+        setTimeout(()=>gif.remove(),4000);
+    }
+
+    // Bugcat Capoo 5 con
+    for(let i=0;i<5;i++){
+        let bug = document.createElement('img');
+        bug.src = 'https://i.ibb.co/6tDPLzB/bugcat.png';
+        bug.className = 'bugcat';
+        bug.style.left = Math.random()*window.innerWidth + 'px';
+        bug.style.top = Math.random()*window.innerHeight + 'px';
+        document.body.appendChild(bug);
+        setTimeout(()=>bug.remove(),5000);
+    }
+}
+</script>
+</body>
+</html>
